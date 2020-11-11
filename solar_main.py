@@ -31,9 +31,9 @@ def main():
             elif event.type == vis.LOADEVENT:
                 model = physics.Model(file_io.load_from_file(event.file))
             elif event.type == vis.SAVEEVENT:
-                file_io.save_to_file(model.get_objects(), event.file)
-                
+                file_io.save_to_file(model.objects, event.file)
         
+        vis.draw_objects(model.objects)
         pg.display.update()
 
 

@@ -168,5 +168,8 @@ class InterfaceManager:
                                     allow_existing_files_only=allow_existing_only)
         
 
-if __name__ == "__main__":
-    print("This module is not for direct call!")
+def draw_objects(obj_list):
+    # TODO everything
+    pass
+
+

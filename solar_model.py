@@ -10,6 +10,3 @@ class Model:
         self.time += time_delta
 
         # TODO everything else
-
-    def get_objects(self):
-        return copy.deepcopy(self.objects)
