@@ -6,6 +6,7 @@ import solar_vis as vis
 import solar_model as physics
 import solar_input as file_io
 
+
 def main():
     pg.init()
 
@@ -17,13 +18,14 @@ def main():
     quit_flag = False
 
     while not quit_flag:
-        time_delta = clock.tick(60)/1000.0
-
+        time_delta = clock.tick(60) / 1000.0
+        vis.draw_objects(model.objects, screen)
         if GUI_manager.is_running:
-            model.update(time_delta*GUI_manager.get_speed())
+            model.update(time_delta * GUI_manager.get_speed())
 
         screen.fill(col.black)
         GUI_manager.update(time_delta, model.time)
+        vis.draw_objects(model.objects, screen)
         for event in pg.event.get():
             GUI_manager.process_event(event)
             if event.type == pg.QUIT:
@@ -32,8 +34,8 @@ def main():
                 model = physics.Model(file_io.load_from_file(event.file))
             elif event.type == vis.SAVEEVENT:
                 file_io.save_to_file(model.objects, event.file)
-        
-        vis.draw_objects(model.objects)
+
+        vis.draw_objects(model.objects, screen)
         pg.display.update()
 
 
