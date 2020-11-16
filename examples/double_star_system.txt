@@ -1,0 +1,4 @@
+  Object's coords     Radius    Color      Mass         Velocity      
+     [390, 400]         5       yellow     1000   [0, 0.707106781187] 
+     [410, 400]         5        red       1000   [0, -0.707106781187]
+     [500, 400]         1       white       1     [0, 0.632455532034]
