@@ -153,7 +153,7 @@ class InterfaceManager:
 
     def open_file_dialog(self, window_title, allow_existing_only):
         """
-        opens a file dialog; call with allow_existing_only = True when you need to load an existing file
+        opens a file dialog; call with allow_existing_only == True when you need to load an existing file
         """
         self.stop_simulation()
         self.disable_buttons()
