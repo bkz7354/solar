@@ -21,3 +21,10 @@ color_dict = {
     'orange': orange,
     'cyan': cyan
 }
+
+def get_color_name(rgb):
+    for key, val in color_dict.items():
+        if val == rgb:
+            return key
+    
+    raise Exception("No matching color found")

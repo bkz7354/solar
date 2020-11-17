@@ -69,17 +69,31 @@ class InterfaceManager:
                    'right': 'right',
                    'top': 'bottom',
                    'bottom': 'bottom'}
-        value_range = (1, 10000)
-        sliderRect = pg.Rect(0, 0, 200, 40)
-        sliderRect.bottomright = (-10, -10)
+        self.time_speeds = time_speeds
+        self.time_idx = 0
+        buttonRect = pg.Rect(0, 0, 30, 40)
 
-        self.speedSlider = pgui.elements.UIHorizontalSlider(sliderRect, start_value=1, value_range=value_range,
-                                                            manager=self.manager, anchors=anchors)
+        self.speedIncreaseButton = self.init_button_bottomright(buttonRect, (-170, -10), ">")
+        self.speedDecreaseButton = self.init_button_bottomright(buttonRect, (-200, -10), "<")
 
-        labelRect = pg.Rect((0, 0, 100, 40))
-        labelRect.bottomright = (-220, -10)
+        labelRect = pg.Rect((0, 0, 120, 40))
+        labelRect.bottomright = (-10, -10)
 
-        self.speedLabel = pgui.elements.UILabel(labelRect, "speed: 1", manager=self.manager, anchors=anchors)
+        self.speedLabel = pgui.elements.UILabel(labelRect, "speed: " + str(time_speeds[0]), manager=self.manager, anchors=anchors)
+
+    def init_button_bottomright(self, rect, pos, text):
+        """
+        inits button in such a way that it is placed relative to the bottom right corner
+        """
+        buttonRect = rect.copy()
+        buttonRect.bottomleft = pos
+        return pgui.elements.UIButton(relative_rect=buttonRect,
+                                      text=text, manager=self.manager,
+                                      anchors={'left': 'right',
+                                               'right': 'right',
+                                               'top': 'bottom',
+                                               'bottom': 'bottom'})
+
 
     def init_time_label(self):
         labelRect = pg.Rect((0, 0, 300, 40))
@@ -110,6 +124,10 @@ class InterfaceManager:
                 elif event.ui_element == self.saveButton:
                     self.stop_simulation()
                     self.saveDialog = self.open_file_dialog("Save configuration to file", False)
+                elif event.ui_element == self.speedIncreaseButton:
+                    self.increase_speed()
+                elif event.ui_element == self.speedDecreaseButton:
+                    self.decrease_speed()
             if event.user_type == pgui.UI_WINDOW_CLOSE:
                 self.enable_buttons()
                 if event.ui_element == self.loadDialog:
@@ -140,8 +158,16 @@ class InterfaceManager:
         else:
             self.start_simulation()
 
+    def increase_speed(self):
+        if self.time_idx + 1 < len(self.time_speeds):
+            self.time_idx += 1
+    
+    def decrease_speed(self):
+        if self.time_idx > 0:
+            self.time_idx -= 1
+
     def get_speed(self):
-        return self.speedSlider.get_current_value()
+        return self.time_speeds[self.time_idx]
 
     def update_displayed_speed(self):
         self.speedLabel.set_text("speed: " + str(self.get_speed()))

@@ -6,7 +6,8 @@ def save_to_file(objects, filename):
     try:
         with open(filename, 'w') as file:
             for item in objects:
-                print("Planet", item.rad, item.col, item.mass, 
+                print(colors.get_color_name(item.col))
+                print("Planet", item.rad, colors.get_color_name(item.col), item.mass, 
                       item.coord[0], item.coord[1],
                       item.vel[0], item.vel[1], file=file)
             
