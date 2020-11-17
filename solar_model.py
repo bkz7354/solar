@@ -6,6 +6,7 @@ class Model:
     def __init__(self, objects, time=0):
         self.objects = copy.deepcopy(objects)
         self.time = time
+        self.calculate_scale()
 
     def update(self, time_delta):
         self.time += time_delta
@@ -30,3 +31,10 @@ class Model:
     def get_force(self, obj1, obj2):
         d = self.dist(obj1, obj2)
         return 1/50*obj1.mass*obj2.mass/d**2
+
+    def calculate_scale(self):
+        max_distance = 1
+        for obj1 in self.objects:
+            for obj2 in self.objects:
+                max_distance = max(max_distance, self.dist(obj1, obj2))
+        self.scale_factor = 0.4/max_distance

@@ -163,7 +163,16 @@ class InterfaceManager:
                                 initial_file_path='.',
                                 allow_existing_files_only=allow_existing_only)
 
+def get_screen_x(scale, x):
+    return window_width//2 + int(x*scale)
 
-def draw_objects(obj_list, surface):
+def get_screen_y(scale, y):
+    return window_height//2 - int(y*scale)
+
+def get_screen_coords(scale, coords):
+    return [get_screen_x(scale, coords[0]), get_screen_y(scale, coords[1])]
+
+def draw_objects(obj_list, scale_factor, surface):
+    screen_scale = scale_factor*min(window_width, window_height)
     for obj in obj_list:
-        pg.draw.circle(surface, col.color_dict[obj.col], obj.coord, obj.rad)
+        pg.draw.circle(surface, col.color_dict[obj.col], get_screen_coords(screen_scale, obj.coord), obj.rad)
