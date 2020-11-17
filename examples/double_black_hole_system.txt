@@ -1,3 +1,0 @@
-  Object's coords     Radius    Color      Mass         Velocity      
-     [350, 400]         20      black     100000   [0, 3.16227766017]
-     [450, 400]         20      black     100000   [0, -3.16227766017]
