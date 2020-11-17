@@ -30,7 +30,7 @@ class Model:
 
     def get_force(self, obj1, obj2):
         d = self.dist(obj1, obj2)
-        return 1/50*obj1.mass*obj2.mass/d**2
+        return 6.67*10**(-11)*obj1.mass*obj2.mass/d**2
 
     def calculate_scale(self):
         max_distance = 1

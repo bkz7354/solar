@@ -10,6 +10,10 @@ window_height = 800
 LOADEVENT = pg.USEREVENT + 1
 SAVEEVENT = pg.USEREVENT + 2
 
+default_time_speeds = [
+    1, 5, 10, 50, 100, 500, 
+    1000, 5000, 10000, 50000, 100000
+]
 
 def truncate(number, digits):
     stepper = 10.0 ** digits
@@ -22,7 +26,7 @@ class InterfaceManager:
     using get_speed method and is_running variable
     """
 
-    def __init__(self, screen):
+    def __init__(self, screen, time_speeds=default_time_speeds):
         self.screen = screen
         # this variable tells whether the simulation is running right now
         self.is_running = False
@@ -30,7 +34,7 @@ class InterfaceManager:
         self.manager = pgui.UIManager((window_width, window_height))
 
         self.init_buttons()
-        self.init_slider()
+        self.init_time_speed(time_speeds)
 
         self.init_time_label()
 
@@ -57,7 +61,7 @@ class InterfaceManager:
                                                'top': 'bottom',
                                                'bottom': 'bottom'})
 
-    def init_slider(self):
+    def init_time_speed(self, time_speeds):
         """
         initiates speed slider and spee display label
         """
@@ -65,7 +69,7 @@ class InterfaceManager:
                    'right': 'right',
                    'top': 'bottom',
                    'bottom': 'bottom'}
-        value_range = (1, 100)
+        value_range = (1, 10000)
         sliderRect = pg.Rect(0, 0, 200, 40)
         sliderRect.bottomright = (-10, -10)
 
@@ -78,7 +82,7 @@ class InterfaceManager:
         self.speedLabel = pgui.elements.UILabel(labelRect, "speed: 1", manager=self.manager, anchors=anchors)
 
     def init_time_label(self):
-        labelRect = pg.Rect((0, 0, 200, 40))
+        labelRect = pg.Rect((0, 0, 300, 40))
         labelRect.topleft = (10, 10)
 
         self.timeLabel = pgui.elements.UILabel(labelRect, "elapsed time: 0s", manager=self.manager)
@@ -142,8 +146,23 @@ class InterfaceManager:
     def update_displayed_speed(self):
         self.speedLabel.set_text("speed: " + str(self.get_speed()))
 
+    def get_time_string(self, time):
+        res = ""
+        minute = 60
+        hour = minute*60
+        day = hour*24
+
+        if(time >= day):
+            res += str(int(time//day)) + "d "
+        if(time >= hour):
+            res += str(int((time%day)//hour)) + "h "
+        if(time >= minute):
+            res += str(int((time%hour)//minute)) + "m "
+        res += str(truncate(time%minute, 1)) + "s"
+        return res
+
     def update_displayed_time(self, time):
-        self.timeLabel.set_text("elapsed time: " + str(truncate(time, 1)) + "s")
+        self.timeLabel.set_text("elapsed time: " + self.get_time_string(time))
 
     def update(self, time_delta, physical_time):
         self.update_displayed_speed()
@@ -175,5 +194,4 @@ def get_screen_coords(scale, coords):
 def draw_objects(obj_list, scale_factor, surface):
     screen_scale = scale_factor*min(window_width, window_height)
     for obj in obj_list:
-        print(obj.coord, )
         pg.draw.circle(surface, obj.col, get_screen_coords(screen_scale, obj.coord), obj.rad)
