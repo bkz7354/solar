@@ -35,6 +35,7 @@ class Model:
     def calculate_scale(self):
         max_distance = 1
         for obj1 in self.objects:
+            max_distance = max(max_distance, m.sqrt(obj1.coord[0]**2 + obj1.coord[1]**2))
             for obj2 in self.objects:
                 max_distance = max(max_distance, self.dist(obj1, obj2))
         self.scale_factor = 0.4/max_distance

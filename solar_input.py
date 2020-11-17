@@ -1,5 +1,5 @@
 from solar_obj import Object
-
+import colors
 
 # write down data in table
 def save_to_file(objects, filename):
@@ -13,18 +13,36 @@ def save_to_file(objects, filename):
     print("dummy save to " + filename)
 
 
+def parse_object(line):
+    # data order: type radius color mass x y vx vy
+    data = line.split()
+
+    radius = int(data[1])
+    col = colors.color_dict[data[2]]
+    mass = float(data[3])
+    coords = [float(x) for x in data[4:6]]
+    vel = [float(x) for x in data[6:8]]
+    
+    
+    return Object(coords, radius, col, mass, vel)
+    
+
+
 # read off data from table
 def load_from_file(filename):
     objects = []
-    output = open(filename, 'r')
-    lines = output.readlines()
-    del lines[0]  # names of columns are ignored
-    for i in range(len(lines)):
-        lines[i] = lines[i].replace('[', ',').replace(']', ',').replace(',', '')
-    for line in lines:
-        tmp = line.split()
-        objects.append(Object([float(tmp[0]), float(tmp[1])], float(tmp[2]),
-                              (tmp[3]), float(tmp[4]), [float(tmp[5]), float(tmp[6])]))
-    output.close()
-    print("dummmy load from " + filename)
+    with open(filename) as file:
+        lines = file.readlines()
+        for line in lines:
+            line = line.strip()
+            if line and line[0] != '#':
+                try:
+                    objects.append(parse_object(line))
+                except:
+                    print("Skipping line: " + line)
+        
+
+    print("Loaded " + str(len(objects)) + " objects from " + filename)
+    print(objects[0].coord)
+    print(objects[1].coord)
     return objects

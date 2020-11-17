@@ -175,4 +175,5 @@ def get_screen_coords(scale, coords):
 def draw_objects(obj_list, scale_factor, surface):
     screen_scale = scale_factor*min(window_width, window_height)
     for obj in obj_list:
-        pg.draw.circle(surface, col.color_dict[obj.col], get_screen_coords(screen_scale, obj.coord), obj.rad)
+        print(obj.coord, )
+        pg.draw.circle(surface, obj.col, get_screen_coords(screen_scale, obj.coord), obj.rad)

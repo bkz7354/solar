@@ -8,6 +8,9 @@ green = (0, 255, 0)
 blue = (0, 0, 255)
 yellow = (255, 255, 0)
 orange = (250, 104, 0)
+cyan = (0, 255, 255)
+
+
 color_dict = {
     'white': white,
     'black': black,
@@ -15,5 +18,6 @@ color_dict = {
     'green': green,
     'blue': blue,
     'yellow': yellow,
-    'orange': orange
+    'orange': orange,
+    'cyan': cyan
 }
